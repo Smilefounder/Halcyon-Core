@@ -1,0 +1,330 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
+    <GenerateProgramFile>false</GenerateProgramFile>
+    <PublishWithAspNetCoreTargetManifest>False</PublishWithAspNetCoreTargetManifest>
+    <Version>0.0.4</Version>
+    <Authors>Swastika I/O Team, Smileway Team</Authors>
+    <Company>Swastika I/O</Company>
+    <Product>Swastika I/O Core CMS (MVC)</Product>
+    <Copyright>Swastika I/O, Smileway, Befirst.Solution</Copyright>
+    <PackageLicenseUrl>https://github.com/Swastika-IO/Swastika-IO-Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://www.swastika.io</PackageProjectUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/26378971</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Swastika-IO/Swastika-IO-Core</RepositoryUrl>
+    <PackageTags>Asp.Net Core CMS, Asp.Net Core MVC CMS, C# Core CMS, NetCoreCMS, Core CMS, Modular Architecture, CMS Theme, CMS Widget, Multilangual CMS, .Net CMS Platform, .Net CMS Open Source, .Net CMS Comparison 2017, .Net CMS System, .Net CMS Framework, .Net CMS Open Source MVC, .Net CMS tools, .Net CMS website, Content Management System, Blog Engine, DotNet Core,</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Areas\Portal\Data\**" />
+    <Compile Remove="Areas\Portal\Models\**" />
+    <Compile Remove="Areas\User\Models\AccountViewModels\**" />
+    <Compile Remove="Views\Admin\**" />
+    <Compile Remove="Views\Shared\Articles\**" />
+    <Compile Remove="Views\Shared\Components\**" />
+    <Compile Remove="Views\Shared\Corlate\**" />
+    <Compile Remove="Views\Shared\Forms\**" />
+    <Compile Remove="Views\Shared\Layouts\**" />
+    <Compile Remove="Views\Shared\Modules\**" />
+    <Compile Remove="Views\Shared\NowUI\**" />
+    <Compile Remove="Views\Shared\Pages\**" />
+    <Compile Remove="Views\Shared\Templates\Modus\**" />
+    <Compile Remove="Views\Shared\Templates\Now-UI-Kit-PRO\**" />
+    <Compile Remove="Views\Shared\Widgets\**" />
+    <Compile Remove="wwwroot\lib\**" />
+    <Content Remove="Areas\Portal\Data\**" />
+    <Content Remove="Areas\Portal\Models\**" />
+    <Content Remove="Areas\User\Models\AccountViewModels\**" />
+    <Content Remove="Views\Admin\**" />
+    <Content Remove="Views\Shared\Articles\**" />
+    <Content Remove="Views\Shared\Components\**" />
+    <Content Remove="Views\Shared\Corlate\**" />
+    <Content Remove="Views\Shared\Forms\**" />
+    <Content Remove="Views\Shared\Layouts\**" />
+    <Content Remove="Views\Shared\Modules\**" />
+    <Content Remove="Views\Shared\NowUI\**" />
+    <Content Remove="Views\Shared\Pages\**" />
+    <Content Remove="Views\Shared\Templates\Modus\**" />
+    <Content Remove="Views\Shared\Templates\Now-UI-Kit-PRO\**" />
+    <Content Remove="Views\Shared\Widgets\**" />
+    <!--<Content Remove="wwwroot\lib\**" />-->
+    <EmbeddedResource Remove="Areas\Portal\Data\**" />
+    <EmbeddedResource Remove="Areas\Portal\Models\**" />
+    <EmbeddedResource Remove="Areas\User\Models\AccountViewModels\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Shared\Articles\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\**" />
+    <EmbeddedResource Remove="Views\Shared\Corlate\**" />
+    <EmbeddedResource Remove="Views\Shared\Forms\**" />
+    <EmbeddedResource Remove="Views\Shared\Layouts\**" />
+    <EmbeddedResource Remove="Views\Shared\Modules\**" />
+    <EmbeddedResource Remove="Views\Shared\NowUI\**" />
+    <EmbeddedResource Remove="Views\Shared\Pages\**" />
+    <EmbeddedResource Remove="Views\Shared\Templates\Modus\**" />
+    <EmbeddedResource Remove="Views\Shared\Templates\Now-UI-Kit-PRO\**" />
+    <EmbeddedResource Remove="Views\Shared\Widgets\**" />
+    <EmbeddedResource Remove="wwwroot\lib\**" />
+    <None Remove="Areas\Portal\Data\**" />
+    <None Remove="Areas\Portal\Models\**" />
+    <None Remove="Areas\User\Models\AccountViewModels\**" />
+    <None Remove="Views\Admin\**" />
+    <None Remove="Views\Shared\Articles\**" />
+    <None Remove="Views\Shared\Components\**" />
+    <None Remove="Views\Shared\Corlate\**" />
+    <None Remove="Views\Shared\Forms\**" />
+    <None Remove="Views\Shared\Layouts\**" />
+    <None Remove="Views\Shared\Modules\**" />
+    <None Remove="Views\Shared\NowUI\**" />
+    <None Remove="Views\Shared\Pages\**" />
+    <None Remove="Views\Shared\Templates\Modus\**" />
+    <None Remove="Views\Shared\Templates\Now-UI-Kit-PRO\**" />
+    <None Remove="Views\Shared\Widgets\**" />
+    <None Remove="wwwroot\lib\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="App_Start\Startup.SignalR.cs" />
+    <Compile Remove="Areas\Portal\Controllers\Apis\ModuleApiController.cs" />
+    <Compile Remove="Areas\Portal\Controllers\ApperanceController.cs" />
+    <Compile Remove="Areas\User\Controllers\AccountController.cs" />
+    <Compile Remove="Controllers\AdminController.cs" />
+    <Compile Remove="Controllers\DefaultController.cs" />
+    <Compile Remove="Controllers\ManageController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Portal\Views\Articles\IndexOld.cshtml" />
+    <Content Remove="Areas\Portal\Views\Module\DetailsOld.cshtml" />
+    <Content Remove="Areas\Portal\Views\Module\IndexOld.cshtml" />
+    <Content Remove="Areas\Portal\Views\Pages\IndexOld.cshtml" />
+    <Content Remove="Areas\Portal\Views\Setting\CreateCulture.cshtml" />
+    <Content Remove="Areas\Portal\Views\Setting\Cultures.cshtml" />
+    <Content Remove="Areas\Portal\Views\Setting\EditCulture.cshtml" />
+    <Content Remove="Areas\Portal\Views\Setting\_Editable_Culture.cshtml" />
+    <Content Remove="Areas\Portal\Views\Shared\Components\HeaderNavbar\DefaultOld.cshtml" />
+    <Content Remove="Areas\Portal\Views\Shared\Widgets\_FeatureImage.cshtml" />
+    <Content Remove="Areas\Portal\Views\Shared\Widgets\_ThumbnailImage.cshtml" />
+    <Content Remove="Areas\Portal\Views\Shared\_Layout.cshtml" />
+    <Content Remove="Views\Home\About.cshtml" />
+    <Content Remove="Views\Home\Article.cshtml" />
+    <Content Remove="Views\Home\Blog.cshtml" />
+    <Content Remove="Views\Home\Contact.cshtml" />
+    <Content Remove="Views\Home\Index.cshtml" />
+    <Content Remove="Views\Home\List.cshtml" />
+    <Content Remove="Views\Home\TTS.cshtml" />
+    <Content Remove="Views\Shared\Error.cshtml" />
+    <Content Remove="Views\Shared\Modules.cshtml" />
+    <Content Remove="Views\Shared\RichTextEditor.cshtml" />
+    <Content Remove="Views\Shared\_AdminLayout.cshtml" />
+    <Content Remove="Views\Shared\_Banners.cshtml" />
+    <Content Remove="Views\Shared\_Breadcrumb.cshtml" />
+    <Content Remove="Views\Shared\_Clients.cshtml" />
+    <Content Remove="Views\Shared\_Comments.cshtml" />
+    <Content Remove="Views\Shared\_Comments_Facebook.cshtml" />
+    <Content Remove="Views\Shared\_Contacts.cshtml" />
+    <Content Remove="Views\Shared\_Editor_ModuleData.cshtml" />
+    <Content Remove="Views\Shared\_Footer.cshtml" />
+    <Content Remove="Views\Shared\_Header.cshtml" />
+    <Content Remove="Views\Shared\_HotTours.cshtml" />
+    <Content Remove="Views\Shared\_Layout.cshtml" />
+    <Content Remove="Views\Shared\_Layout_Corlate.cshtml" />
+    <Content Remove="Views\Shared\_LoginPartial.cshtml" />
+    <Content Remove="Views\Shared\_OtherServices.cshtml" />
+    <Content Remove="Views\Shared\_PartialSelectLanguage.cshtml" />
+    <Content Remove="Views\Shared\_Partners.cshtml" />
+    <Content Remove="Views\Shared\_Prices.cshtml" />
+    <Content Remove="Views\Shared\_Services.cshtml" />
+    <Content Remove="Views\Shared\_SideBar.cshtml" />
+    <Content Remove="Views\Shared\_TopSocials.cshtml" />
+    <Content Remove="Views\Shared\_TTSLayout.cshtml" />
+    <Content Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="angularjs" Version="1.6.9" />
+    <PackageReference Include="JWT" Version="4.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.3" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.6.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Scriban" Version="1.2.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.8.2.4717" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\Portal\Views\Shared\Widgets\" />
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Portal\Views\ApiModule\_ModuleData.cshtml" />
+    <None Include="Areas\Portal\Views\ApiModule\_ModuleData_Record.cshtml" />
+    <None Include="Areas\Portal\Views\Apperance\EditTemplate.cshtml" />
+    <None Include="Areas\Portal\Views\Apperance\Menus.cshtml" />
+    <None Include="Areas\Portal\Views\Apperance\Templates.cshtml" />
+    <None Include="Areas\Portal\Views\Apperance\Themes.cshtml" />
+    <None Include="Areas\Portal\Views\Apperance\_Editable_Template.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\Create.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\Details.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\Draft.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\Edit.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\_Editable.cshtml" />
+    <None Include="Areas\Portal\Views\Articles\_EditableSide.cshtml" />
+    <None Include="Areas\Portal\Views\Collaborators\AddMember.cshtml" />
+    <None Include="Areas\Portal\Views\Collaborators\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Collaborators\Members.cshtml" />
+    <None Include="Areas\Portal\Views\Collaborators\Permission.cshtml" />
+    <None Include="Areas\Portal\Views\Collaborators\Roles.cshtml" />
+    <None Include="Areas\Portal\Views\Contents\AddArticle.cshtml" />
+    <None Include="Areas\Portal\Views\Contents\Articles.cshtml" />
+    <None Include="Areas\Portal\Views\Contents\Categories.cshtml" />
+    <None Include="Areas\Portal\Views\Contents\Tags.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\Create.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\Delete.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\Details.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\Edit.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Culture\_Editable.cshtml" />
+    <None Include="Areas\Portal\Views\File\Edit.cshtml" />
+    <None Include="Areas\Portal\Views\File\Index.cshtml" />
+    <None Include="Areas\Portal\Views\File\_Editable_File.cshtml" />
+    <None Include="Areas\Portal\Views\Media\AddFile.cshtml" />
+    <None Include="Areas\Portal\Views\Media\Files.cshtml" />
+    <None Include="Areas\Portal\Views\Module\AddEmptyField.cshtml" />
+    <None Include="Areas\Portal\Views\Module\AddModuleData.cshtml" />
+    <None Include="Areas\Portal\Views\Module\Create.cshtml" />
+    <None Include="Areas\Portal\Views\Module\Details.cshtml" />
+    <None Include="Areas\Portal\Views\Module\Edit.cshtml" />
+    <None Include="Areas\Portal\Views\Module\EditModuleData.cshtml" />
+    <None Include="Areas\Portal\Views\Module\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_Editable.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_EditableSide.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_EditableSide_Data.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_Editable_Data.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_ModuleData.cshtml" />
+    <None Include="Areas\Portal\Views\Module\_ModuleData_Record.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\AddPage.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\Contents.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\Create.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\Edit.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\_Editable.cshtml" />
+    <None Include="Areas\Portal\Views\Pages\_EditableSide.cshtml" />
+    <None Include="Areas\Portal\Views\Portal\About.cshtml" />
+    <None Include="Areas\Portal\Views\Portal\Contact.cshtml" />
+    <None Include="Areas\Portal\Views\Portal\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Portal\Search.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\AddPhoneNumber.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\ChangePassword.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\Index.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\ManageLogins.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\SetPassword.cshtml" />
+    <None Include="Areas\Portal\Views\Profile\VerifyPhoneNumber.cshtml" />
+    <None Include="Areas\Portal\Views\Setting\Configurations.cshtml" />
+    <None Include="Areas\Portal\Views\Setting\CreateConfiguration.cshtml" />
+    <None Include="Areas\Portal\Views\Setting\EditConfiguration.cshtml" />
+    <None Include="Areas\Portal\Views\Setting\_Editable_Configuration.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Components\Breadcrumbs\Default.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Components\ControlSidebar\Default.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Components\HeaderNavbar\Default.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Components\MainFooter\Default.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Components\MainSidebar\Default.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\EditableSides\_EditableSide_Actions.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\EditableSides\_EditableSide_Cultures.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\Error.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_Editor_Code.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_Editor_ModuleData.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_LoginPartial.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_Pagination.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_ValidationScriptsPartial.cshtml" />
+    <None Include="Areas\Portal\Views\Shared\_ViewByFieldType.cshtml" />
+    <None Include="Areas\Portal\Views\Theme\Index.cshtml" />
+    <None Include="Areas\Portal\Views\_BlankTemplate.cshtml" />
+    <None Include="Areas\Portal\Views\_ViewImports.cshtml" />
+    <None Include="Areas\Portal\Views\_ViewStart.cshtml" />
+    <None Include="Areas\User\Views\Account\AccessDenied.cshtml" />
+    <None Include="Areas\User\Views\Account\ConfirmEmail.cshtml" />
+    <None Include="Areas\User\Views\Account\ExternalLoginConfirmation.cshtml" />
+    <None Include="Areas\User\Views\Account\ExternalLoginFailure.cshtml" />
+    <None Include="Areas\User\Views\Account\ForgotPassword.cshtml" />
+    <None Include="Areas\User\Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <None Include="Areas\User\Views\Account\Lockout.cshtml" />
+    <None Include="Areas\User\Views\Account\Login.cshtml" />
+    <None Include="Areas\User\Views\Account\Register.cshtml" />
+    <None Include="Areas\User\Views\Account\ResetPassword.cshtml" />
+    <None Include="Areas\User\Views\Account\ResetPasswordConfirmation.cshtml" />
+    <None Include="Areas\User\Views\Account\SendCode.cshtml" />
+    <None Include="Areas\User\Views\Account\VerifyCode.cshtml" />
+    <None Include="Areas\User\Views\Manage\AddPhoneNumber.cshtml" />
+    <None Include="Areas\User\Views\Manage\ChangePassword.cshtml" />
+    <None Include="Areas\User\Views\Manage\Index.cshtml" />
+    <None Include="Areas\User\Views\Manage\ManageLogins.cshtml" />
+    <None Include="Areas\User\Views\Manage\SetPassword.cshtml" />
+    <None Include="Areas\User\Views\Manage\VerifyPhoneNumber.cshtml" />
+    <None Include="Areas\User\Views\_ViewImports.cshtml" />
+    <None Include="Areas\User\Views\_ViewStart.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Articles\_Default.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Layouts\_Advanced.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Layouts\_Comments_Facebook.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Layouts\_Footer.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Layouts\_Header.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Layouts\_Top_Nav.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Masters\_Layout.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\newtemplate.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_AboutUs_Advanced.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Banners.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Default.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_header-1.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_AboutUs.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_Contact_Us.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_Header.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_Pricing.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_What_Is_Alpha.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Home_Work_With_Us.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Latest_Blogposts.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_MainNavi.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_Modules.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Modules\_What_Clients_Say.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\Modules.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_AboutUs.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_Components.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_Default.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_Home.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_List_Post.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_List_Post_Item.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Pages\_Modules.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Widgets\_Comments_Facebook.cshtml" />
+    <None Include="Views\Shared\Templates\Default\Widgets\_Tags.cshtml" />
+    <None Include="Views\_ViewImports.cshtml" />
+    <None Include="Views\_ViewStart.cshtml" />
+    <None Include="wwwroot\app\app-portal.js" />
+    <None Include="wwwroot\app\controllers\portal-controller.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Halcyon.Cms.Lib\Halcyon.Cms.Lib.csproj" />
+    <ProjectReference Include="..\Halcyon.Cms.Api\Halcyon.Cms.Api.csproj" />
+  </ItemGroup>
+
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/bower" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

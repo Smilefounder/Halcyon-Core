@@ -1,0 +1,47 @@
+﻿// Licensed to the Halcyon Core Foundation under one or more agreements.
+// The Halcyon Core Foundation licenses this file to you under the GNU General Public License v3.0.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.EntityFrameworkCore.Storage;
+using Halcyon.Cms.Lib.Models.Cms;
+using Halcyon.Domain.Core.ViewModels;
+using Halcyon.Domain.Data.ViewModels;
+
+namespace Halcyon.Cms.Lib.ViewModels
+{
+    public class ModuleAttributeValueViewModel
+        : ViewModelBase<SiocCmsContext, SiocModuleAttributeValue, ModuleAttributeValueViewModel>
+    {
+        public int ModuleId { get; set; }
+        public string Name { get; set; }
+        public int DataType { get; set; }
+        public string Title { get; set; }
+        public int Width { get; set; }
+        public string DefaultValue { get; set; }
+
+        #region Overrides
+
+        public override void Validate(SiocCmsContext _context = null, IDbContextTransaction _transaction = null)
+        {
+            if (DataType == 0)
+            {
+                Errors.Add("aaaa");
+                IsValid = false;
+            }
+            base.Validate(_context, _transaction);
+        }
+
+        public override RepositoryResponse<bool> SaveSubModels(SiocModuleAttributeValue parent, SiocCmsContext _context = null, IDbContextTransaction _transaction = null)
+        {
+            return base.SaveSubModels(parent, _context, _transaction);
+        }
+
+        public override RepositoryResponse<bool> RemoveRelatedModels(
+            ModuleAttributeValueViewModel view, SiocCmsContext _context = null, IDbContextTransaction _transaction = null)
+        {
+            return base.RemoveRelatedModels(view, _context, _transaction);
+        }
+
+        #endregion Overrides
+    }
+}

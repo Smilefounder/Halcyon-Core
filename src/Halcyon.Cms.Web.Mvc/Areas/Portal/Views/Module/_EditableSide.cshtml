@@ -1,0 +1,134 @@
+@model BEModuleViewModel
+
+@{
+    string img = Model != null ? Model.Image : "http://placehold.it/200x200";
+    var status = Html.GetEnumSelectList<Halcyon.Common.Utility.Enums.SWStatus>();
+    var moduleTypes = Html.GetEnumSelectList<SWCmsConstants.ModuleType>();
+    //var types = Html.GetEnumSelectList<Halcyon.Cms.Lib.SWCmsConstants.CateType>();
+    //string img = Model != null ? Model.Image : "http://placehold.it/200x200";
+}
+
+@await Html.PartialAsync("EditableSides/_EditableSide_Actions")
+
+<div class="card">
+    <div class="card-header">
+        Status
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+
+            <div class="btn-group btn-group-sm btn-group-toggle d-flex w-100" role="group" data-toggle="buttons">
+
+                @foreach (var stat in status)
+                {
+                    <label class="btn btn-outline-primary btn-block mt-0">
+                        <input asp-for="Status" type="radio" value="@stat.Text" class="custom-control-input" id="pageType_@stat.Value" />
+
+                        @switch (stat.Text)
+                        {
+                            case "Deleted":<i class="mi mi-Delete mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Preview":<i class="mi mi-Preview mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Published":<i class="mi mi-Page mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Draft":<i class="mi mi-Edit mi-lg mi-flip-horizontal" title="@stat.Text"></i>
+                                break;
+                            case "Schedule":<i class="mi mi-Calendar mi-lg mi-flip-horizontal" title="@stat.Text"></i>
+                                break;
+                        }
+                    </label>
+                }
+            </div>
+
+            @*@foreach (var stat in status)
+                {
+                    <div class="custom-control custom-radio">
+                        <input asp-for="Status" type="radio" value="@stat.Text" class="custom-control-input" id="pageType_@stat.Value" />
+                        <label class="custom-control-label" for="pageType_@stat.Value">@stat.Text</label>
+                    </div>
+                }*@
+            @*<span class="switch">
+                    <input type="checkbox" asp-for="IsVisible" class="switch">
+                    <label asp-for="IsVisible">Publish</label>
+                </span>
+                <span class="switch">
+                        <input type="checkbox" asp-for="IsDeleted" class="switch">
+                        <label asp-for="IsDeleted">Deleted</label>
+                    </span>*@
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <label asp-for="Type" class="control-label">Module types</label>
+    </div>
+    <div class="card-body">
+
+        <div class="form-group">
+
+            <div class="btn-group btn-group-sm btn-group-toggle d-flex w-100" role="group" data-toggle="buttons">
+                @foreach (var type in moduleTypes)
+                {
+                    <label class="btn btn-outline-primary btn-block mt-0 ">
+                        <input asp-for="Type" type="radio" value="@type.Text" class="custom-control-input" id="pageType_@type.Text" />
+
+                        @switch (type.Text)
+                        {
+                            case "SubPage":<i class="mi mi-Page mi-lg mi-fw" title="@type.Text"></i>
+                                break;
+                            case "SubArticle":<i class="mi mi-ReadingList mi-lg mi-fw" title="@type.Text"></i>
+                                break;
+                            case "SubProduct":<i class="mi mi-Package mi-lg mi-fw" title="@type.Text"></i>
+                                break;
+                            case "Form":<i class="mi mi-wpform mi-lg mi-fw" title="@type.Text"></i>
+                                break;
+                            case "Root":<i class="mi mi-ReturnKey mi-flip-horizontal" title="@type.Text"></i>
+                                break;
+                        }
+                    </label>
+                }
+            </div>
+
+            @*<label class="btn btn-secondary active">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Active
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Radio
+                </label>
+                <label class="btn btn-secondary">
+                    <input type="radio" name="options" id="option3" autocomplete="off"> Radio
+                </label>*@
+
+            @*<select asp-for="Type" class="form-control" asp-items="@moduleTypes"></select>*@
+
+            @*<div class="custom-control custom-radio">
+                    <input asp-for="Type" type="radio" value="@type.Text" class="custom-control-input" id="pageType_@type.Text" />
+                    <label class="custom-control-label" for="pageType_@type.Text">@type.Text</label>
+                </div>*@
+
+            <span asp-validation-for="Type" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+@Html.Partial("EditableSides/_EditableSide_Cultures", Model.ListSupportedCulture)
+<input type="hidden" asp-for="Specificulture" />
+
+<div class="card">
+    <div class="card-header">
+        Feature image
+    </div>
+    <div class="card-body p-0" style="background:url(/images/upload-image-thumbnail.png) no-repeat center;  cursor:pointer;">
+        <span asp-validation-for="Image" class="text-danger"></span>
+        <span class="custom-file" style="min-height:210px; overflow:hidden;">
+            <button class="btn btn-light btn-sm custom-file-cropper position-absolute m-1 collapse" style="z-index:3; right:0;" data-toggle="modal" data-target=".image-crop-modal-lg" data-imgsrc="" data-imgid="">
+                <i class="mi mi-Crop"></i>
+            </button>
+            <input type="file" name="pic" class="custom-file-input auto-upload position-absolute" style="height:150px; cursor:pointer;">
+            <img src="@img" name="pic" class="custom-file-img d-block" style="max-height: 150px; width: auto; margin: 0 auto;" accept="image/*" width="100%" />
+            <input type="hidden" value="Modules/@Model.Id" class="folder-val" />
+            <input type="text" asp-for="Image" class="form-control custom-file-val">
+        </span>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@model BEModuleDataViewModel
+
+@{
+    var types = Html.GetEnumSelectList<Halcyon.Cms.Lib.SWCmsConstants.DataType>();
+}
+@if (!ViewData.ModelState.IsValid)
+{
+    <div class="alert alert-danger" role="alert">
+        <div asp-validation-summary="All"></div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                Main Content
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="ModuleId" />
+                    <input type="hidden" asp-for="ArticleId" />
+                    <input type="hidden" asp-for="Specificulture" />
+                    <input type="hidden" asp-for="Fields" />
+                    <input type="hidden" asp-for="CreatedDateTime" />
+
+                    @for (int i = 0; i < Model.DataProperties.Count; i++)
+                    {
+
+                        Html.RenderPartial("_Editor_ModuleData",
+                        new ViewDataDictionary(this.Vi‌​ewData) {
+                {
+                "Model", Model.DataProperties[i]
+                },
+                {
+
+                "Name","DataProperties"
+                },
+                {
+
+                "Index",i
+                }
+                        }
+                        );
+                        <input type="hidden" asp-for="@Model.DataProperties[i].Value" class="form-control" />
+                        <input type="hidden" asp-for="@Model.DataProperties[i].Name" class="form-control" />
+                        <input type="hidden" asp-for="@Model.DataProperties[i].DataType" class="form-control" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

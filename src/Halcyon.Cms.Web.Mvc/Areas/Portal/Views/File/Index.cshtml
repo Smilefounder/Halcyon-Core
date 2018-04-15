@@ -1,0 +1,149 @@
+﻿@using Halcyon.Domain.Core.ViewModels;
+@model List<Halcyon.Cms.Lib.ViewModels.FileViewModel>
+@{
+    ViewData["Title"] = "Blank File";
+    ViewData["Description"] = "Manage site navigations and menus";
+    string[] imgExts = new string[] { ".jpg", ".jpeg", ".gif", ".png" };
+    string[] txtExts = new string[] { ".js", ".css", ".scss", ".txt" };
+    var subFolders = ViewData["directories"] as List<string>;
+    string folder = ViewBag.folder;
+
+    string prvFolder = string.Empty;
+    if (!string.IsNullOrEmpty(folder))
+    {
+        int idx = folder.LastIndexOf('/');
+        prvFolder = idx > 0 ? folder.Substring(0, idx) : string.Empty;
+    }
+
+    string prvUrl = Url.RouteUrl("File", new { culture = ViewBag.culture, folder = prvFolder });
+}
+
+<section class="content container-fluid">
+
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-end">
+            <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="input-group mr-2">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" name="file" id="file">
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                </div>
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <input type="hidden" name="folder" value="@ViewBag.folder" />
+                    <button type="button" onclick="this.form.submit()" class="btn btn-secondary"><i class="mi mi-Upload"></i> Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="row mb-1">
+            <div class="col">
+                <div class="input-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" id="file" class="btn" />
+                        <input type="file" class="custom-file-input" name="file" id="file">
+                        <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                        <button type="button" onclick="this.form.submit()" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Upload</button>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-hover">
+                <thead class="thead-light">
+                    <tr>
+                        <th scope="col" width="30%">
+                            Name
+                        </th>
+                        <th scope="col">
+                            FullPath
+                        </th>
+                        <th scope="col" width="15%">
+                            Preview
+                        </th>
+                        <th scope="col" width="5%" class="text-right">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @if (!string.IsNullOrEmpty(folder))
+                    {
+                        <tr>
+                            <td>
+                                <span class="oi oi-arrow-thick-left mr-2"></span> <strong><a href="@prvUrl" class="">Back...</a></strong>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                    }
+                    @foreach (var path in subFolders)
+                    {
+                        string dirPath = string.Format("{0}/{1}", folder, path);
+                        string href = Url.RouteUrl("File", new { culture = ViewBag.culture, folder = dirPath });
+                        <tr>
+                            <td class="text-primary">
+                                <span class="oi oi-folder mr-2"></span> <a href="@href" class="text-primary">@path</a>
+                            </td>
+                            <td colspan="3"></td>
+                        </tr>
+                    }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-secondary">
+                                <span class="oi oi-file mr-2"></span>  <small>@Html.DisplayFor(modelItem => item.Filename)@Html.DisplayFor(modelItem => item.Extension)</small>
+                            </td>
+                            <td>
+
+                                <div class="input-group input-group-sm mb-3">
+                                    <input id="path-file-@Model.IndexOf(item)" value="@item.FullPath" onclick="this.select()" class="form-control form-control-sm" readonly />
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-secondary btn-clipboard" type="button" data-clipboard-target="#path-file-@Model.IndexOf(item)"><i class="mi mi-Copy"></i></button>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+
+                                @if (imgExts.Contains(item.Extension))
+                                {
+                                    <img src="@item.FullPath" style="max-height:50px;" class="" />
+                                }
+                                else
+                                {
+                                    <span>-</span>
+                                }
+                                @*else if (txtExts.Contains(item.Extension))
+                                    {
+                                        <div class="container-code-editor">
+                                            <div class="form-control code-editor">@item.Content</div>
+                                        </div>
+                                    }*@
+                            </td>
+
+                            <td>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                    <a asp-action="Edit"
+                                       asp-route-name="@item.Filename"
+                                       asp-route-ext="@item.Extension"
+                                       asp-route-folder="@item.FileFolder"
+                                       class="btn btn-sm btn-light d-inline-block"><span class="oi oi-pencil text-primary"></span></a>
+                                    <a target="_blank" href="@item.FullPath" class="btn btn-sm btn-light"> <span class="oi oi-eye text-info"></span> </a>
+                                    <a asp-action="Delete"
+                                       asp-route-name="@item.Filename"
+                                       asp-route-ext="@item.Extension"
+                                       asp-route-folder="@item.FileFolder" class="btn btn-sm btn-light d-inline-block text-danger" data-popout="true" data-toggle="confirmation" data-singleton="true"><span class="oi oi-x"></span></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <!-- /.table -->
+        </div>
+    </div>
+</section>

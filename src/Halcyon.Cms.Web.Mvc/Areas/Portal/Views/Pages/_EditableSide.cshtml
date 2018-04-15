@@ -1,0 +1,213 @@
+@model BECategoryViewModel
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewBag.IsAdmin = true; // UserManager.GetUserName(User) == "administrator";
+    string isHidden = ViewBag.IsAdmin ? string.Empty : "hidden";
+}
+
+@{
+    var types = Html.GetEnumSelectList<Halcyon.Cms.Lib.SWCmsConstants.CateType>();
+    var status = Html.GetEnumSelectList<Halcyon.Common.Utility.Enums.SWStatus>();
+    string img = Model != null ? Model.Image : "http://placehold.it/200x200";
+}
+
+<div class="card">
+    <div class="card-header">
+        Info
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+
+            <div class="btn-group btn-group-sm btn-group-toggle d-flex w-100" role="group" data-toggle="buttons">
+
+                @foreach (var stat in status)
+                {
+                    <label class="btn btn-outline-primary btn-block mt-0">
+                        <input asp-for="Status" type="radio" value="@stat.Text" class="custom-control-input" id="pageType_@stat.Value" />
+
+                        @switch (stat.Text)
+                        {
+                            case "Deleted":<i class="mi mi-Delete mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Preview":<i class="mi mi-Preview mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Published":<i class="mi mi-Page mi-lg mi-fw" title="@stat.Text"></i>
+                                break;
+                            case "Draft":<i class="mi mi-Edit mi-lg mi-flip-horizontal" title="@stat.Text"></i>
+                                break;
+                            case "Schedule":<i class="mi mi-Calendar mi-lg mi-flip-horizontal" title="@stat.Text"></i>
+                                break;
+                        }
+                    </label>
+                }
+            </div>
+            @*@{
+                    foreach (var stat in status)
+                    {
+
+                        <div class="custom-control custom-radio">
+                            <input asp-for="Status" type="radio" value="@stat.Value" class="custom-control-input" id="pageStatus_@stat.Value" />
+                            <label class="custom-control-label" for="pageStatus_@stat.Value">@stat.Text</label>
+                        </div>
+                    }
+                }*@
+        </div>
+        @*
+                <div class="form-group">
+                    <span class="switch">
+                    <input type="checkbox" asp-for="IsVisible" class="switch">
+                    <label asp-for="IsVisible">Publish</label>
+                </span>
+                <span class="switch">
+                        <input type="checkbox" asp-for="IsDeleted" class="switch">
+                        <label asp-for="IsDeleted">Deleted</label>
+                    </span>
+            </div>*@
+        <div class="form-group">
+            <label asp-for="CreatedDateTime" class="control-label">Created DateTime</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="mi mi-Calendar"></i></span>
+                </div>
+                <input asp-for="CreatedDateTime" type="text" class="form-control" readonly />
+            </div>
+            <span asp-validation-for="CreatedDateTime" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="CreatedBy" class="control-label">Created By</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1"><i class="mi mi-Contact"></i></span>
+                </div>
+                <input asp-for="CreatedBy" class="form-control" readonly />
+            </div>
+            <span asp-validation-for="CreatedBy" class="text-danger"></span>
+        </div>
+    </div>
+</div>
+
+@*<div class="card">
+        <div class="card-header">
+            Page Type
+        </div>
+        <div class="card-body">
+
+            <div class="btn-group btn-group-sm btn-group-toggle d-flex w-100" role="group" data-toggle="buttons">
+                @foreach (var type in types)
+                {
+                    <label class="btn btn-outline-primary btn-block mt-0 ">
+                        <input asp-for="Type" type="radio" value="@type.Value" class="custom-control-input" id="pageType_@type.Value" />
+
+                        @switch (type.Text)
+                        {
+                            case "Blank":<i class="mi mi-Preview mi-fw" title="@type.Text"></i>
+                                break;
+                            case "Article":<i class="mi mi-ReadingList mi-fw" title="@type.Text"></i>
+                                break;
+                            case "ListProduct":<i class="mi mi-Package mi-fw" title="@type.Text"></i>
+                                break;
+                            case "List":<i class="mi mi-BulletedList mi-fw" title="@type.Text"></i>
+                                break;
+                            case "Home":<i class="mi mi-Home mi-fw" title="@type.Text"></i>
+                                break;
+                            case "StaticUrl":<i class="mi mi-Go mi-fw" title="@type.Text"></i>
+                                break;
+                            case "Modules":<i class="mi mi-ResolutionLegacy mi-fw" title="@type.Text"></i>
+                                break;
+                        }
+                    </label>
+                }
+            </div>
+
+           <select asp-for="Type" class="form-control" asp-items="@types"></select>
+                <span asp-validation-for="Type" class="text-danger"></span>
+
+    @{
+            foreach (var type in types)
+            {
+
+                <div class="custom-control custom-radio">
+                    <input asp-for="Type" type="radio" value="@type.Value" class="custom-control-input" id="pageType_@type.Value" />
+                    <label class="custom-control-label" for="pageType_@type.Value">@type.Text</label>
+                </div>
+            }
+        }
+        </div>
+    </div>*@
+
+@Html.Partial("EditableSides/_EditableSide_Cultures", Model.ListSupportedCulture)
+<input type="hidden" asp-for="Specificulture" />
+
+<div class="card">
+    <div class="card-header">
+        Feature image
+    </div>
+    <div class="card-body p-0" style="background:url(/images/upload-image-thumbnail.png) no-repeat center;  cursor:pointer;">
+        <span asp-validation-for="Image" class="text-danger"></span>
+        <span class="custom-file" style="min-height:210px; overflow:hidden;">
+            <button class="btn btn-light btn-sm custom-file-cropper position-absolute m-1 collapse" style="z-index:3; right:0;" data-toggle="modal" data-target=".image-crop-modal-lg" data-imgsrc="" data-imgid="">
+                <i class="mi mi-Crop"></i>
+            </button>
+            <input type="file" name="pic" class="custom-file-input auto-upload position-absolute" style="height:150px; cursor:pointer;">
+            <img src="@img" name="pic" class="custom-file-img d-block" style="max-height: 150px; width: auto; margin: 0 auto;" accept="image/*" width="100%" />
+            <input type="hidden" value="Pages/@Model.SeoTitle" class="folder-val" />
+            <input type="text" asp-for="Image" class="form-control custom-file-val">
+        </span>
+    </div>
+</div>
+
+@await Html.PartialAsync("EditableSides/_EditableSide_Actions")
+
+@*
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <h3 class="box-title">Publish</h3>
+            <div class="box-tools">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                    <i class="fa fa-minus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="box-body">
+
+            <div class="form-group row @isHidden">
+                <div class="col-xs-4">
+                    <label asp-for="Level" class="control-label"></label>
+                    <input asp-for="Level" class="form-control" />
+                    <span asp-validation-for="Level" class="text-danger"></span>
+                </div>
+                <div class="col-xs-4">
+                    <label asp-for="Views" class="control-label"></label>
+                    <input asp-for="Views" class="form-control" />
+                    <span asp-validation-for="Views" class="text-danger"></span>
+                </div>
+                <div class="col-xs-4">
+                    <label asp-for="Priority" class="control-label"></label>
+                    <input asp-for="Priority" class="form-control" />
+                    <span asp-validation-for="Priority" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Icon" class="control-label"></label>
+                <input asp-for="Icon" class="form-control" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+
+                <label class="custom-control custom-checkbox d-block">
+                    <input type="checkbox" asp-for="IsDeleted" class="custom-control-input">
+                    <input type="hidden" asp-for="IsDeleted" />
+                    <span class="custom-control-indicator"></span>
+                    <span class="custom-control-description">
+                        Is Deleted?
+                    </span>
+                </label>
+            </div>
+        </div>
+        <!-- /.box-body -->
+    </div>
+
+*@

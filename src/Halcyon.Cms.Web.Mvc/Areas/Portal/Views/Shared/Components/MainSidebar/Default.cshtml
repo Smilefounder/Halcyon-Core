@@ -1,0 +1,648 @@
+﻿@using Halcyon.Cms.Lib.ViewModels;
+@using Halcyon.Cms.Lib.Repositories;
+@using Microsoft.AspNetCore.Identity
+@using Halcyon.Cms.Lib.ViewModels
+@using Halcyon.Cms.Lib.ViewModels.Info
+@using Halcyon.Cms.Lib;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var translator = SWCmsHelper.GetTranslator(ViewBag.culture);
+
+    var getListAvailbleModules = Halcyon.Cms.Lib.ViewModels.Info.InfoModuleViewModel.Repository.GetModelListBy(
+m => m.Specificulture == ViewContext.RouteData.Values["culture"].ToString());
+    var listAvaiModule = getListAvailbleModules.Data;
+    // ModuleRepository.GetInstance().GetModelListBy(m => m.Specificulture == ViewContext.RouteData.Values["culture"].ToString());
+    var getAvailableCategories = Halcyon.Cms.Lib.ViewModels.Info.InfoCategoryViewModel.Repository.GetModelListBy(m => m.Specificulture == ViewContext.RouteData.Values["culture"].ToString());
+    var listAvaiPage = getAvailableCategories.Data;
+    var listAvaiTheme = InfoThemeViewModel.Repository.GetModelList();
+    //CategoryRepository.GetInstance().GetModelListBy(m => m.Specificulture == ViewContext.RouteData.Values["culture"].ToString());
+    var searchTypes = new SelectList(Enum.GetNames(typeof(SWCmsConstants.SearchType)).ToList());
+    var directories = FileRepository.Instance.GetTopDirectories(string.Empty);
+    string searchType = ViewBag.searchKeyword;
+}
+<div id="sidebar" class="sw-sidebar">
+    <form asp-area="Portal" asp-controller="Portal" asp-action="Search" method="post" class="sw-search d-flex align-items-center">
+        <input type="search" class="form-control" id="search-input" name="keyword" placeholder="Search for..." aria-label="Search for..." autocomplete="off">
+        <button class="btn btn-light sw-search-docs-toggle d-md-none p-0 ml-3" type="submit" data-toggle="collapse" data-target="#sw-docs-nav"
+                aria-controls="sw-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false">
+                <title>Menu</title>
+                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22" />
+            </svg>
+        </button>
+    </form>
+
+    <ul class="sw-links" id="sw-docs-nav" data-children=".sw-toc-item">
+        <!-- DASHBOARD -->
+        <li class="sw-toc-item mt-1 mb-1">
+            <a asp-area="Portal" asp-controller="Dashboard" asp-action="Index" class="sw-toc-link">
+                <i class="mi mi-Tiles mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Dashboard")</span>
+            </a>
+        </li>
+
+        <!-- ARTICLE -->
+        <li class="sw-toc-item mt-1 mb-1 mb-1" is-active-menu asp-controllers="Articles">
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Draft" class="btn btn-light">
+                        <span class="oi oi-clipboard"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseArticleSubMenus" role="button" aria-expanded="false"
+                       aria-controls="collapseArticleSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseArticleSubMenus" role="button" aria-expanded="false"
+                 aria-controls="collapseArticleSubMenus">
+                <i class="mi mi-ReadingList mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Articles")</span>
+            </div>
+            <ul id="collapseArticleSubMenus" class="collapse list-unstyled" role="tabpanel" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Article")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Article")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Articles" asp-action="Draft" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Paste mi-fw"></i>
+                        <span class="text">@translator.Get("Draft")</span>
+                    </a>
+                </li>
+
+                <li class="hide-on-sb-inactive">
+                    <div class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-ReadingList mi-fw"></i>
+                        <span class="text">Article...</span>
+                        <div class="inner">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-light">
+                                    <span class="oi oi-plus"></span>
+                                </a>
+                                <a class="btn btn-light">
+                                    <span class="oi oi-list"></span>
+                                </a>
+                                <a class="btn btn-light">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+
+        <!-- PRODUCT -->
+        <li class="sw-toc-item mt-1 mb-1" is-active-menu asp-controllers="Product">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Draft" class="btn btn-light">
+                        <span class="oi oi-clipboard"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseProductSubMenus" role="button" aria-expanded="false"
+                       aria-controls="collapseProductSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseProductSubMenus" role="button" aria-expanded="false"
+                 aria-controls="collapseProductSubMenus">
+                <i class="mi mi-Package mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Products")</span>
+            </div>
+            <ul id="collapseProductSubMenus" class="collapse list-unstyled" role="tabpanel" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add mi-fw"></i>
+                        <span class="text">@translator.Get("Create Product")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Product")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Product" asp-action="Draft" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Paste mi-fw"></i>
+                        <span class="text">@translator.Get("Draft")</span>
+                    </a>
+                </li>
+
+                <li class="hide-on-sb-inactive">
+                    <div class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Package mi-fw"></i>
+                        <span class="text">Product...</span>
+
+                        <div class="inner">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a class="btn btn-light">
+                                    <span class="oi oi-plus"></span>
+                                </a>
+                                <a class="btn btn-light">
+                                    <span class="oi oi-list"></span>
+                                </a>
+                                <a class="btn btn-light">
+                                    <span class="oi oi-pencil"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+
+        <!-- PAGES -->
+        <li class="sw-toc-item mt-1 mb-1" is-active-route asp-controller="Pages" asp-action="Create">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="" class="btn btn-light">
+                        <span class="oi oi-clipboard"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapsePageSubMenus" role="button" aria-expanded="false"
+                       aria-controls="collapsePageSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapsePageSubMenus" role="button" aria-expanded="false"
+                 aria-controls="collapsePageSubMenus">
+                <i class="mi mi-Page mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Pages")</span>
+            </div>
+            <ul id="collapsePageSubMenus" class="collapse list-unstyled" role="tabpanel" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Page")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Article")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Pages" asp-action="" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Paste mi-fw"></i>
+                        <span class="text">@translator.Get("Draft")</span>
+                    </a>
+                </li>
+
+                @foreach (var cate in listAvaiPage)
+                {
+                    <li class="hide-on-sb-inactive" is-active-menu asp-controllers="Pages" asp-action="AddData,EditData,Contents,Edit" asp-route-id="@cate.Id">
+                        <div class="sw-toc-sub-link mb-1">
+                            <i class="mi mi-Page mi-fw"></i>
+                            <span class="text">@SWCmsHelper.SubString(cate.Title, 20)</span>
+                            <div class="inner">
+                                @if (cate.Type == SWCmsConstants.CateType.List || cate.Type == SWCmsConstants.CateType.ListProduct)
+                                {
+
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a asp-area="Portal" asp-controller="Pages" asp-action="Create" asp-route-categoryId="@cate.Id" class="btn btn-light">
+                                            <span class="oi oi-plus"></span>
+                                        </a>
+                                        <a asp-area="Portal" asp-controller="Pages" asp-action="Contents" asp-route-id="@cate.Id" asp-route-pagename="@cate.SeoName" class="btn btn-light">
+                                            <span class="oi oi-list"></span>
+                                        </a>
+                                        <a asp-area="Portal" asp-controller="Pages" asp-action="Edit" asp-route-id="@cate.Id" asp-route-pageName="@cate.SeoName" class="btn btn-light">
+                                            <span class="oi oi-pencil"></span>
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                        <a asp-area="Portal" asp-controller="Pages" asp-action="Edit" asp-route-id="@cate.Id" asp-route-pageName="@cate.SeoName" class="btn btn-light">
+                                            <span class="oi oi-pencil"></span>
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </li>
+
+        <!-- Favorite MODULES -->
+        <li class="sw-toc-item mt-1 mb-1" is-active-menu asp-controllers="Module">
+
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseModuleForm" aria-expanded="false"
+                 aria-controls="collapseModuleForm">
+                <i class="mi mi-wpform mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Forms")</span>
+            </div>
+            <ul id="collapseModuleForm" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+
+                @foreach (var module in listAvaiModule.Where(m => m.Type == (int)SWCmsConstants.ModuleType.Form).OrderBy(m => m.Priority))
+                {
+                    <li class="hide-on-sb-inactive">
+                        <div class="sw-toc-sub-link mb-1">
+                            <i class="mi mi-Component mi-fw"></i>
+                            <span class="text">@SWCmsHelper.SubString(module.Title, 20)</span>
+
+                            <div class="inner">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="AddModuleData" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-plus"></span>
+                                    </a>
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="Details" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-list"></span>
+                                    </a>
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="Edit" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </li>
+
+        <!-- MODULE -->
+        <li class="sw-toc-item mt-1 mb-1" is-active-menu asp-controllers="Module">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a is-active-route asp-controller="Module" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Module" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a class="btn btn-light">
+                        <span class="oi oi-clipboard"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseModuleSubMenus" aria-expanded="false"
+                       aria-controls="collapseModuleSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseModuleSubMenus" aria-expanded="false"
+                 aria-controls="collapseModuleSubMenus">
+                <i class="mi mi-ResolutionLegacy mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Modules")</span>
+            </div>
+            <ul id="collapseModuleSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <a is-active-route asp-controller="Module" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Module")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Module" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Module")</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Paste mi-fw"></i>
+                        <span class="text">@translator.Get("Draft")</span>
+                    </a>
+                </li>
+                @foreach (var module in listAvaiModule.OrderBy(m => m.Priority))
+                {
+                    <li class="hide-on-sb-inactive">
+                        <div class="sw-toc-sub-link mb-1">
+                            <i class="mi mi-Component mi-fw"></i>
+                            <span class="text">@SWCmsHelper.SubString(module.Title, 20)</span>
+
+                            <div class="inner">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="AddModuleData" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-plus"></span>
+                                    </a>
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="Details" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-list"></span>
+                                    </a>
+                                    <a asp-area="Portal" asp-controller="Module" asp-action="Edit" asp-route-id="@module.Id" class="btn btn-light">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </li>
+
+        <!-- MODULE -->
+        <li class="sw-toc-item mt-1 mb-1" is-active-menu asp-controllers="Module">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a is-active-route asp-controller="Module" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Module" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a class="btn btn-light">
+                        <span class="oi oi-clipboard"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseModuleSubMenus" aria-expanded="false"
+                       aria-controls="collapseModuleSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseWidgetSubMenus" aria-expanded="false"
+                 aria-controls="collapseWidgetSubMenus">
+                <i class="mi mi-Component mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Widgets")</span>
+            </div>
+            <ul id="collapseWidgetSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <a is-active-route asp-controller="Widget" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Widget")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Widget" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Widget")</span>
+                    </a>
+                </li>
+                <li>
+                    <a data-target="#" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Paste mi-fw"></i>
+                        <span class="text">@translator.Get("Draft")</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- THEME -->
+        <li class="sw-toc-item mt-1 mb-1">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Theme" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Theme" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseAppearanceSubMenus" aria-expanded="false"
+                       aria-controls="collapseAppearanceSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseAppearanceSubMenus" aria-expanded="false"
+                 aria-controls="collapseAppearanceSubMenus">
+                <i class="mi mi-Personalize mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Themes")</span>
+            </div>
+            <ul id="collapseAppearanceSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Theme" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Theme")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Theme" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Theme")</span>
+                    </a>
+                </li>
+
+                @foreach (var item in listAvaiTheme.Data)
+                {
+                    string fileFolder = string.Format("Templates/{0}", item.Name);
+                    string filesUrl = Url.RouteUrl("File", new { culture = ViewBag.culture, folder = fileFolder });
+                    <li class="hide-on-sb-inactive" is-active-menu asp-controllers="Theme" asp-action="AddData,EditData,Contents,Edit" asp-route-id="@item.Id">
+                        <div class="sw-toc-sub-link mb-1">
+                            <i class="mi mi-Color mi-fw"></i>
+                            <span class="text">@item.Name</span>
+
+                            <div class="inner">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a asp-controller="Template" asp-action="Index" asp-route-folder="Masters" asp-route-templateId="@item.Id" class="btn btn-light">
+                                        <span class="oi oi-brush"></span>
+                                    </a>
+                                    <a href="@filesUrl" class="btn btn-light">
+                                        <span class="oi oi-file"></span>
+                                    </a>
+                                    <a asp-area="Portal" asp-controller="Theme" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-light">
+                                        <span class="oi oi-pencil"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </li>
+
+        <!-- MEDIA -->
+        <li class="sw-toc-item mt-1 mb-1">
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Media" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-image"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="File" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-file"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseFileSubMenus" aria-expanded="false"
+                       aria-controls="collapseFileSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseFileSubMenus" aria-expanded="false"
+                 aria-controls="collapseFileSubMenus">
+                <i class="mi mi-Photo2 mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Media")</span>
+            </div>
+            <ul id="collapseFileSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Media" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Photo2 mi-fw"></i>
+                        <span class="text">@translator.Get("Library")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="File" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-FileExplorer mi-fw"></i>
+                        <span class="text">@translator.Get("Files")</span>
+                    </a>
+                </li>
+                @foreach (var folder in directories)
+                {
+                    string dirPath = string.Format("/{0}", folder);
+                    string href = Url.RouteUrl("File", new { culture = ViewBag.culture, folder = dirPath });
+                    <li>
+                        <a href="@href" class="sw-toc-sub-link mb-1">
+                            <i class="mi mi-Folder"></i>
+                            <span class="text">@folder</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </li>
+
+        <!-- TEAM -->
+        <li class="sw-toc-item mt-1 mb-1">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a asp-area="Portal" asp-controller="Team" asp-action="Create" class="btn btn-light">
+                        <span class="oi oi-plus"></span>
+                    </a>
+                    <a asp-area="Portal" asp-controller="Team" asp-action="Index" class="btn btn-light">
+                        <span class="oi oi-list"></span>
+                    </a>
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseTeamSubMenus" aria-expanded="false"
+                       aria-controls="collapseTeamSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseTeamSubMenus" aria-expanded="false"
+                 aria-controls="collapseTeamSubMenus">
+                <i class="mi mi-Contact mi-lg mi-fw"></i>
+                <span class="text">@translator.Get("Team")</span>
+            </div>
+            <ul id="collapseTeamSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <a asp-area="Portal" asp-controller="Team" asp-action="Create" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Add  mi-fw"></i>
+                        <span class="text">@translator.Get("Create Member")</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Portal" asp-controller="Team" asp-action="Index" class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-List mi-fw"></i>
+                        <span class="text">@translator.Get("List Member")</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <!-- SETTING -->
+        <li class="sw-toc-item mt-1 mb-1">
+
+            <div class="inner">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    @*<a class="btn btn-light">
+                            <i class="mi mi-Repair mi-fw"></i>
+                        </a>
+                        <a class="btn btn-light">
+                            <span class="oi oi-list"></span>
+                        </a>
+                        <a class="btn btn-light">
+                            <span class="oi oi-globe"></span>
+                        </a>*@
+                    <a href="#" class="btn btn-light" data-toggle="collapse" data-target="#collapseSettingSubMenus" aria-expanded="false"
+                       aria-controls="collapseSettingSubMenus">
+                        <span class="oi oi-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <div class="sw-toc-link" data-toggle="collapse" data-target="#collapseSettingSubMenus" aria-expanded="false"
+                 aria-controls="collapseSettingSubMenus">
+                <i class="mi mi-Settings mi-lg mi-fw mi-spin"></i>
+                <span class="text">@translator.Get("Settings")</span>
+            </div>
+            <ul id="collapseSettingSubMenus" class="collapse list-unstyled" data-parent="#sw-docs-nav">
+                <li>
+                    <div class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-Repair mi-fw"></i>
+                        <span class="text">@translator.Get("Configurations")</span>
+
+                        <div class="inner">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a asp-area="Portal" asp-controller="Setting" asp-action="CreateConfiguration" class="btn btn-light">
+                                    <span class="oi oi-plus"></span>
+                                </a>
+                                <a asp-area="Portal" asp-controller="Setting" asp-action="Configurations" class="btn btn-light">
+                                    <span class="oi oi-list"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="">
+                    <div class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-TimeLanguage mi-fw"></i>
+                        <span class="text">@translator.Get("Languages")</span>
+                        <div class="inner">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a asp-area="Portal" asp-controller="Language" asp-action="CreateLanguage" class="btn btn-light">
+                                    <span class="oi oi-plus"></span>
+                                </a>
+                                <a asp-area="Portal" asp-controller="Language" asp-action="Languages" class="btn btn-light">
+                                    <span class="oi oi-list"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="sw-toc-sub-link mb-1">
+                        <i class="mi mi-World mi-fw"></i>
+                        <span class="text">@translator.Get("Cultures")</span>
+
+                        <div class="inner">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                <a asp-area="Portal" asp-controller="Culture" asp-action="Create" class="btn btn-light">
+                                    <span class="oi oi-plus"></span>
+                                </a>
+                                <a asp-area="Portal" asp-controller="Culture" asp-action="Index" class="btn btn-light">
+                                    <span class="oi oi-list"></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </li>
+        <li class="sw-toc-item mt-1 mb-1"></li>
+        <li class="sw-toc-item mt-1 mb-1"></li>
+    </ul>
+</div>

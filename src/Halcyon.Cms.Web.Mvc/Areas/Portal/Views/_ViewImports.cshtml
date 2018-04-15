@@ -1,0 +1,18 @@
+﻿@using Halcyon.Cms.Mvc
+@using Halcyon.Identity.Models
+@using Halcyon.Identity.Models.AccountViewModels
+@using Halcyon.Identity.Models.ManageViewModels
+@using Microsoft.AspNetCore.Identity
+@using System.Globalization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Halcyon.Cms.Lib.ViewModels.BackEnd
+@using Halcyon.Cms.Lib.ViewModels.Info
+@using Halcyon.Cms.Lib.ViewModels.FrontEnd
+@using Halcyon.Domain.Core.ViewModels;
+@using Halcyon.Cms.Lib.ViewModels;
+@using Halcyon.Cms.Lib;
+@inject Halcyon.Cms.Lib.Services.GlobalConfigurationService LocalizerService
+@inject Halcyon.Cms.Lib.Services.GlobalLanguageService LanguageService
+@*@inject IHtmlLocalizer<SharedResource> SharedLocalizer*@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, Halcyon.Cms.Mvc

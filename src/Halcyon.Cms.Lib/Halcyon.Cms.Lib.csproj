@@ -1,0 +1,70 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Halcyon.Cms.Lib</RootNamespace>
+    <Version>0.0.4</Version>
+    <Authors>Swastika I/O Team, Smileway Team</Authors>
+    <Company>Swastika I/O</Company>
+    <Copyright>Swastika I/O, Smileway, Befirst.Solution</Copyright>
+    <Product>Swastika I/O Core CMS Library</Product>
+    <PackageLicenseUrl>https://github.com/Swastika-IO/Swastika-IO-Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://www.Halcyon.io</PackageProjectUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/26378971</PackageIconUrl>
+    <RepositoryUrl>https://github.com/Swastika-IO/Swastika-IO-Core</RepositoryUrl>
+    <PackageTags>Asp.Net Core CMS, Asp.Net Core MVC CMS, C# Core CMS, NetCoreCMS, Core CMS, Modular Architecture, CMS Theme, CMS Widget, Multilangual CMS, .Net CMS Platform, .Net CMS Open Source, .Net CMS Comparison 2017, .Net CMS System, .Net CMS Framework, .Net CMS Open Source MVC, .Net CMS tools, .Net CMS website, Content Management System, Blog Engine, DotNet Core,</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180201164141_Add_Article_Priority.cs" />
+    <Compile Remove="Migrations\20180206120944_Remove_Dub_Article_Prior.cs" />
+    <Compile Remove="Migrations\20180221045916_Add_Related_Product.cs" />
+    <Compile Remove="Migrations\20180221053535_modified_related_product_cols.cs" />
+    <Compile Remove="Migrations\20180221070435_Add_Media_Properties.cs" />
+    <Compile Remove="Migrations\20180221070435_Add_Media_Properties.Designer.cs" />
+    <Compile Remove="Migrations\20180305040722_First.cs" />
+    <Compile Remove="Migrations\20180305042255_First.cs" />
+    <Compile Remove="Migrations\20180305042255_First.Designer.cs" />
+    <Compile Remove="Migrations\20180305042643_test.cs" />
+    <Compile Remove="Migrations\20180305042908_Add-Page-Layout.cs" />
+    <Compile Remove="Migrations\20180305042908_Add-Page-Layout.Designer.cs" />
+    <Compile Remove="Migrations\SiocCmsContextModelSnapshot.cs" />
+    <Compile Remove="Models\SiocFile.cs" />
+    <Compile Remove="Models\SiocTemplate.cs" />
+    <Compile Remove="Models\SiocTheme.cs" />
+    <Compile Remove="Models\_SiocCmsContext.cs" />
+    <Compile Remove="Repositories\AuthRepository.cs" />
+    <Compile Remove="Repositories\AuthRepository1.cs" />
+    <Compile Remove="ViewModels\AccessTokenViewModel.cs" />
+    <Compile Remove="ViewModels\ArticleModuleViewModels.cs" />
+    <Compile Remove="ViewModels\ArticleViewModels.cs" />
+    <Compile Remove="ViewModels\BackEnd\_BlankViewModel.cs" />
+    <Compile Remove="ViewModels\BlankViewModel.cs" />
+    <Compile Remove="ViewModels\CategoryViewModels.cs" />
+    <Compile Remove="ViewModels\CultureViewModel.cs" />
+    <Compile Remove="ViewModels\ModuleDataViewModels.cs" />
+    <Compile Remove="ViewModels\ModuleViewModels.cs" />
+    <Compile Remove="ViewModels\Navigation\_BlankViewModel.cs" />
+    <Compile Remove="ViewModels\_BlankViewModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.9.9.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="2.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="5.2.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.8.2.4717" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\heart\src\Heart\Halcyon.Heart.csproj" />
+    <ProjectReference Include="..\..\..\identity\src\Identity\Halcyon.Identity.csproj" />
+  </ItemGroup>
+
+</Project>

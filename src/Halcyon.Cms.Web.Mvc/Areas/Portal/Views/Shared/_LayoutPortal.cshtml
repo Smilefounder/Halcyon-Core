@@ -1,0 +1,189 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject UserManager<ApplicationUser> UserManager
+@{
+    ViewBag.IsAdmin = true;
+}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>@ViewData["Title"] - Halcyon Core</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    @*<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">*@
+    <meta name="viewport" content="width=1920">
+
+    <link rel="stylesheet" href="~/css/portal/portal.white.min.css">
+    <link href="~/css/portal/main.css" rel="stylesheet" />
+
+    <link href="~/css/open-iconic/open-iconic-bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/micon/css/micon.min.css" rel="stylesheet" />
+
+    <link href="~/lib/bootstrap4-tagsinput-4.1.2/tagsinput.css" rel="stylesheet" />
+
+    <!-- TRUMBOWYG -->
+    <link href="~/lib/Trumbowyg-2.9.0/ui/trumbowyg.min.css" rel="stylesheet" />
+    <link href="~/lib/Trumbowyg-2.9.0/plugins/colors/ui/trumbowyg.colors.css" rel="stylesheet" />
+
+    <link href="https://use.fontawesome.com/releases/v5.0.7/css/all.css" rel="stylesheet">
+
+    <link href="~/lib/flag-icon-css/css/flag-icon.min.css" rel="stylesheet" />
+    <link rel="icon" href="~/css/portal/img/halcyon-io-logo-blue.png">
+    @*<link rel="stylesheet" type="text/css" href="~/lib/DataTables/datatables.min.css" />*@
+    <link href="~/lib/cropperjs-1.2.2/dist/cropper.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <style>
+        .sw-content {
+            width: 100% !important;
+        }
+
+        input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+        }
+        /* helper to ensure that razor (which is correctly detected by ACE) is also highlighted */
+        .ace_razor {
+            background-color: yellow;
+        }
+
+        /* make sure the highlighted text is also black, otherwise it a kind of gray */
+        .ace_punctuation.ace_short.ace_razor {
+            color: black;
+        }
+
+        .ace_punctuation.ace_block.ace_razor {
+            color: black;
+        }
+
+        /* Center the loader */
+        .loader-container {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: black;
+            opacity: 0.2;
+            z-index: 9999;
+        }
+
+        #loader {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 1;
+            width: 150px;
+            height: 150px;
+            margin: -75px 0 0 -75px;
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #3498db;
+            width: 120px;
+            height: 120px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+        @@-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    @RenderSection("Styles", required: false)
+</head>
+
+<body ng-app="HalcyonPortal" ng-controller="PortalController as main">
+    <input type="hidden" id="curentLanguage" name="curentLanguage" value="@ViewBag.culture" />
+
+    <!-- Page Header -->
+    <header class="navbar navbar-expand flex-column flex-md-row sw-navbar">
+        @await Component.InvokeAsync(typeof(Halcyon.Cms.Mvc.Areas.Portal.ViewComponents.HeaderNavbar))
+    </header>
+
+    <!-- Page Content Holder -->
+    <div class="container-fluid wrapper">
+        <div class="row flex-xl-nowrap">
+            <!-- Sidebar Holder -->
+
+            @await Component.InvokeAsync(typeof(Halcyon.Cms.Mvc.Areas.Portal.ViewComponents.MainSidebar))
+
+            <!-- /.Sidebar Holder -->
+            <main class="py-md-3 px-md-2 sw-content" role="main">
+                @RenderBody()
+
+                <footer class="footer d-block">
+                    <div class="container-fluid">
+                        <nav>
+                            <p class="copyright text-center">
+                                <script>
+                                    document.write(new Date().getFullYear())
+                                </script>
+                                <a href="http://www.Halcyon.io">Halcyon Core</a>, made on Earth by humans.
+                            </p>
+                        </nav>
+                    </div>
+                </footer>
+            </main>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="~/lib/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+    <script src="~/lib/popper.js-1.12.9/dist/umd/popper.min.js"></script>
+
+    <script type="text/javascript" src="~/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="~/js/portal/portal.white.js"></script>
+
+    <!-- TRUMBOWYG -->
+    <script src="~/lib/Trumbowyg-2.9.0/trumbowyg.min.js"></script>
+    <script src="~/lib/Trumbowyg-2.9.0/plugins/base64/trumbowyg.base64.js"></script>
+    <script src="~/lib/Trumbowyg-2.9.0/plugins/cleanpaste/trumbowyg.cleanpaste.js"></script>
+    <script src="~/lib/Trumbowyg-2.9.0/plugins/colors/trumbowyg.colors.js"></script>
+    <script src="~/lib/Trumbowyg-2.9.0/plugins/upload/trumbowyg.upload.js"></script>
+    <script src="~/lib/Trumbowyg-2.9.0/plugins/noembed/trumbowyg.noembed.js"></script>
+
+    @*<script type="text/javascript" src="~/lib/DataTables/datatables.min.js"></script>*@
+
+    <script type="text/javascript" src="~/lib/cropperjs-1.2.2/dist/cropper.js"></script>
+
+    <script type="text/javascript" src="~/lib/ace/src/ace.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/mode-csharp.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/mode-razor.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/mode-json.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/theme-chrome.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/theme-clouds_midnight.js"></script>
+    <script type="text/javascript" src="~/lib/ace/src/worker-json.js"></script>
+
+    <script src="~/lib/clipboard.js-2.0.0/dist/clipboard.min.js"></script>
+
+    <script type="text/javascript" src="~/lib/bootstrap4-tagsinput-4.1.2/tagsinput.js"></script>
+    <script src="~/js/angular.min.js"></script>
+    <script src="~/app/app-portal.js"></script>
+    <script src="~/app/controllers/portal-controller.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    <!--Datatables-->
+    <script type="text/javascript" src="~/js/portal/common.js"></script>
+
+    @RenderSection("Modals", required: false)
+    @await Component.InvokeAsync(typeof(Halcyon.Cms.Mvc.Areas.Portal.ViewComponents.Modals))
+</body>
+</html>
